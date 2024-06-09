@@ -1,0 +1,63 @@
+# 1 --------------------
+
+# create user   
+    # groupadd -g 20000 rma
+    # useradd -u 2002 -g 20000 -m -d /nfs/hpcsa1 -s /bin/bash hpcsa1
+
+# create account in slurm  
+    # sacctmgr add account rmalab-acc
+
+# asign user to account
+    # sacctmgr create user name=hpcsa1 DefaultAccount=rmalab-acc
+
+# vim /opt/slurm-21.08.8/etc/slurm.conf
+ > PartitionName=nova Nodes=ALL Default=YES MaxTime=25-00:00:00 DefaultTime=30:00:00 State=UP AllowGroups=rma AllowAccounts=rmalab-acc
+
+# sinfo 
+# scontrol show partition=nova
+
+
+# 2 --------------------
+
+# create user   
+    # groupadd -g 20000 rma
+    # useradd -u 2002 -g 20000 -m -d /nfs/hpcsa1 -s /bin/bash hpcsa1
+
+# create account in slurm  
+    # sacctmgr add account rmalab-acc
+
+# asign user to account
+    # sacctmgr create user name=hpcsa1 DefaultAccount=rmalab-acc
+
+
+# scontrol create reservation=reserve_lab partition=nova nodes=all duration=60 user=-root starttime=now
+
+
+# 3 --------------------
+
+# sacctmgr delete user name=hpcsa1 DefaultAccount=rmalab-acc
+
+
+# create account in slurm  
+    # sacctmgr add account quantum-acc
+
+# asign user to account
+    # sacctmgr create user name=hpcsa1 DefaultAccount=quantum-acc 
+
+# sacctmgr update user name=hpcsa1 set MaxJobs=15
+
+# sacctmgr show asso User=hpcsa1
+
+# su - hpcsa1
+
+$  srun -n 1 -A quantum-acc --time=01:00 --pty /bin/bash
+
+
+# 4 --------------------
+
+
+# sacctmgr create qos zebra
+
+# sacctmgr modify qos where qos=zebra set MaxTRES=node=1
+
+# sacctmgr modify user name=hpcsa1 set qos=zebra

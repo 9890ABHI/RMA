@@ -1,0 +1,46 @@
+# 1 --------------------
+
+# vim /opt/slurm-21.08.8/etc/slurm.conf
+PartitionName=scavenger Nodes=compute1 MaxTime=31-00:00:00 DefaultTime=01:00:00 State=UP DisableRootJobs=YES
+
+# sinfo 
+# scontrol show partition=scavenger
+
+
+# 2 --------------------
+
+# scontrol create reservation=reserve_lab partition=scavenger nodes=all duration=60 user=-root starttime=now
+
+# scontrol show res
+
+
+
+# 3 --------------------
+
+# scontrol show nodes compute1
+
+# scontrol show partition testp
+
+
+# 4 --------------------
+
+# create user   
+    # groupadd -g 20000 rma
+    # useradd -u 2002 -g 100000 -m -d /nfs/hpcsa1 -s /bin/bash hpcsa1
+
+# create account in slurm 
+    # sacctmgr add account testfac1-acc
+
+# asign user to account
+    # sacctmgr create user name=hpcsa1 DefaultAccount=testfac1-acc
+
+# su - hpcsa1
+
+# sbatch -A testfac1-acc /nfs/job.sh
+
+
+
+
+
+
+
