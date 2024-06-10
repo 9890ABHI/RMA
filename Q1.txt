@@ -41,6 +41,30 @@ PartitionName=scavenger Nodes=compute1 MaxTime=31-00:00:00 DefaultTime=01:00:00 
 
 
 
+sbatch job
 
+#! /bin/bash
+
+#SBATCH -N 1
+#SBATCH --ntasks-per-node=1
+#SBATCH --time=04:00:00
+#SBATCH --error=job.%J.err
+#SBATCH --output=job.%J.out
+#SBATCH -p testp
+
+
+cd $SLURM_SUBMIT_DIR
+
+
+
+sleep 100
+
+echo "Starting at `date`"
+echo "runing on hosts: $SLURM_NODELIST"
+
+python3 /nfs/slurml.py
+
+
+echo "completed"
 
 
